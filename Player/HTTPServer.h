@@ -10,13 +10,17 @@ class HttpServer : public QTcpServer
 public:
 	HttpServer(QObject *parent);
 	~HttpServer();
-	void listenTo(quint16 port);
+	
 
 public slots:
+	void listenTo(quint16 port);
 	void readClient();
 
-protected:
+signals:
+	void newProject();
+	void stopBroadcast();
 
+protected:
 	void incomingConnection(int handle);
 
 private:

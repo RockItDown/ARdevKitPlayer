@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+#include "ConnectionManager.h"
 #include "Player.h"
 
 #include <QtOpenGL/QGLWidget>
@@ -31,6 +31,10 @@ Player::Player(QWidget *parent) :
 	// If you want to disable the web view's context menu for an AREL scene, enable this line
 	ui.graphicsView->setContextMenuPolicy(Qt::NoContextMenu);
 #endif
+
+	// manage Connections
+	manager = new ConnectionManager(this);
+	manager->start();
 }
 
 void Player::setConfig(std::string _projectPath, int _mode, std::string _testFilePath, int _fps)
@@ -40,5 +44,6 @@ void Player::setConfig(std::string _projectPath, int _mode, std::string _testFil
 
 Player::~Player()
 {
+	manager->~ConnectionManager();
 	// Do not delete m_pScene, its parent is ui.graphicsView, so it will be destroyed automatically
 }

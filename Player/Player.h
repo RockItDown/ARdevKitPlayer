@@ -3,6 +3,7 @@
 
 #include "ui_Player.h"
 #include "SceneBase.h"
+#include "ConnectionManager.h"
 
 #include <QtGui/QMainWindow>
 
@@ -21,12 +22,16 @@ class Player : public QMainWindow
 public:
 	Player(QWidget *parent = 0);
 	~Player();
+
+public slots:
 	void setConfig(std::string _projectPath, int _mode, std::string _testFilePath, int _fps);
 
 private:
 	Ui::TemplateWindowClass		ui;
 
 	SceneBase*					m_pScene;
+
+	ConnectionManager*			manager;
 };
 
 #endif // TEMPLATEWINDOW_H

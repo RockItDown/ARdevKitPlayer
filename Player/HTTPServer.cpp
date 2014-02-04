@@ -6,14 +6,13 @@
 #include <QDateTime>
 #include <QStringlist>
 #include <QDebug>
-#include <QuaZip\JlCompress.h>
-#include <QuaZip\quazipfile.h>
-#include <QuaZip\quazip.h>
+#include "QuaZip\JlCompress.h"
+#include <QFile>
 
 HttpServer::HttpServer(QObject *parent)
 	: QTcpServer(parent)
 {
-	
+
 }
 
 HttpServer::~HttpServer()
@@ -51,7 +50,7 @@ void HttpServer::readClient()
 			{
 				QTextStream os(socket);
 				os.setAutoDetectUnicode(true);
-				os << "HTTP/1.0 200 Ok\r\n"
+				os <<  "HTTP/1.0 200 Ok\r\n"
 					"Content-Type: text/html; charset=\"utf-8\"\r\n"
 					"\r\n"
 					"<h1>OK</h1>\n"
@@ -65,18 +64,25 @@ void HttpServer::readClient()
 			}
 			if(tokens[0] == "PUT")
 			{
+				QByteArray data = socket->readAll();
 				QFile file("currentProject.zip");
-				//if(file.open(&file,QIODevice::OpenModeFlag.ReadWrite,null))
+				if(file.open(QIODevice::ReadWrite))
 				{
-
+					file.write(data);
+					file.close();
 				}
 
-
+				//JlCompress::extractDir("currentProject.zip", "currentProject");
+				emit newProject();
+				if (socket->state() == QTcpSocket::UnconnectedState) 
+				{
+					delete socket;
+				}
 			}
 			
 			if(tokens[0] == "POST")
 			{
-
+				emit stopBroadcast();	
 			}
 		}
 	}
