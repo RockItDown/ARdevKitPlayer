@@ -13,12 +13,13 @@ public:
 	
 
 public slots:
-	void listenTo(quint16 port);
+	void listenTo();
 	void readClient();
 
 signals:
 	void newProject();
-	void stopBroadcast();
+	void stopBroadcast(int);
+	void error(QString);
 
 protected:
 	void incomingConnection(int handle);

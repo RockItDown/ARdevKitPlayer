@@ -13,7 +13,7 @@ public:
 	~UdpBroadcaster();
 
 public slots:
-	void startBroadcasting(quint16 port);
+	void startBroadcasting();
 	void pauseBroadcasting(int secs);
 
 signals:

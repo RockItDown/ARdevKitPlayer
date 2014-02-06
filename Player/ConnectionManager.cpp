@@ -10,20 +10,21 @@ ConnectionManager::ConnectionManager(QObject *parent)
 	: QObject(parent)
 {
 	udpThread = new QThread(this);
-	braodcaster = new UdpBroadcaster(true, this);
-	braodcaster->moveToThread(udpThread);
+	braodcaster = new UdpBroadcaster(true, 0);
 
 	connect(braodcaster, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
-	connect(udpThread, SIGNAL(started()), braodcaster, SLOT(startBroadcasting(15000)));
+	connect(udpThread, SIGNAL(started()), braodcaster, SLOT(startBroadcasting()));
+
+	braodcaster->moveToThread(udpThread);
 
 
 	httpThread = new QThread(this);
-	listener = new HttpServer(this);
+	listener = new HttpServer(0);
 	listener->moveToThread(httpThread);
 
 	connect(listener, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
-	connect(udpThread, SIGNAL(started()), listener, SLOT(listenTo(15000);));
-	connect(listener, SIGNAL(stopBroadcast()), braodcaster, SLOT(pauseBroadcasting(20)));
+	connect(udpThread, SIGNAL(started()), listener, SLOT(listenTo()));
+	connect(listener, SIGNAL(stopBroadcast(int)), braodcaster, SLOT(pauseBroadcasting(int)));
 }
 
 ConnectionManager::~ConnectionManager()

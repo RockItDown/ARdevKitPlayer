@@ -20,9 +20,9 @@ HttpServer::~HttpServer()
 
 }
 
-void HttpServer::listenTo(quint16 port)
+void HttpServer::listenTo()
 {
-	if(listen(QHostAddress::Any, port))
+	if(listen(QHostAddress::Any, 15000))
 	{
 		 new QDebug(new QString("Server started!"));
 	}
@@ -82,7 +82,7 @@ void HttpServer::readClient()
 			
 			if(tokens[0] == "POST")
 			{
-				emit stopBroadcast();	
+				emit stopBroadcast(30);	
 			}
 		}
 	}

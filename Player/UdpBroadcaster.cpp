@@ -15,7 +15,7 @@ UdpBroadcaster::~UdpBroadcaster()
 	running = false;
 }
 
-void UdpBroadcaster::startBroadcasting(quint16 port)
+void UdpBroadcaster::startBroadcasting()
 {
 	QUdpSocket * broadcaster = new QUdpSocket(this);
 	QString IpAddress = "";
@@ -24,10 +24,10 @@ void UdpBroadcaster::startBroadcasting(quint16 port)
           IpAddress = address.toString();
 	}
 	QByteArray conInfo;
-	conInfo.append(IpAddress.append(":").append(port));
+	conInfo.append(IpAddress.append(":").append(15000));
 	while(true)
 	{
-		broadcaster->writeDatagram(conInfo, QHostAddress::Broadcast, port);
+		broadcaster->writeDatagram(conInfo, QHostAddress::Broadcast, 15001);
 		pauseBroadcasting(2);
 	}
 }
