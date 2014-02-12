@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "ConnectionManager.h"
 #include "Player.h"
+#include "alternativeController.h"
 
 #include <QtOpenGL/QGLWidget>
+
 
 #ifdef METAIO_SDK_NATIVE
 	#include "NativeScene.h"
@@ -33,8 +35,8 @@ Player::Player(QWidget *parent) :
 #endif
 
 	// manage Connections
-	manager = new ConnectionManager(this);
-	manager->start();
+	manager = new alternativeController(0);
+	connect(manager, SIGNAL(newProject()), this, SLOT(restart()));
 }
 
 void Player::setConfig(std::string _projectPath, int _mode, std::string _testFilePath, int _fps)
@@ -44,6 +46,11 @@ void Player::setConfig(std::string _projectPath, int _mode, std::string _testFil
 
 Player::~Player()
 {
-	manager->~ConnectionManager();
+	manager->~alternativeController();
 	// Do not delete m_pScene, its parent is ui.graphicsView, so it will be destroyed automatically
+}
+
+void Player::restart()
+{
+	//do not know how the exact initialization is done, would be glad if you could write this immanuel
 }
